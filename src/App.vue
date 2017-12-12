@@ -1,21 +1,17 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
-
+    <vzr-debug></vzr-debug>
+    <div id="viz">
+    </div>
   </div>
 </template>
 
 <script>
-  import li from './listener.js'
+  import vzrDebug from './components/vzr-debug.vue';
   export default {
     name: 'app',
-    data () {
-      return {
-        msg: 'Test App'
-      }
-    }
+    components: { vzrDebug }
   }
-  li.init();
 </script>
 
 <style>
@@ -27,9 +23,20 @@
   color: #59758e;
   margin-top: 60px;
 }
-
+.debugtable {
+  font-family: monospace;
+}
+.debugtable th {
+  text-align: right;
+  width: 100px;
+}
+.debugtable td {
+  text-align: left;
+  color:black;
+  width: 170px;
+}
 body {
-  background-color: black;
+  background-color: gray;
 }
 
 h1, h2 {
