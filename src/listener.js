@@ -1,13 +1,13 @@
+/////////////////////////////
+// VZR LISTENER
+// listens to audio source input and provides FFT output
+////////////////////////////
+
 const listener = {}
 let audioCtx = new (window.AudioContext || window.webkitAudioContext)(),
   source,
   stream;
-
-
-/////////////////////////////
-// init
-////////////////////////////
-let analyser = audioCtx.createAnalyser();
+const analyser = audioCtx.createAnalyser();
 analyser.smoothingTimeConstant = 0.85;
 listener.init = () => {
   console.log('listen!');
@@ -15,17 +15,14 @@ listener.init = () => {
     console.log('getUserMedia supported.');
     setTimeout(function () {
       navigator.mediaDevices.getUserMedia(
-        // constraints - only audio needed for this app
         {
           audio: true
         }).then(
-        // Success callback
         function (stream) {
           source = audioCtx.createMediaStreamSource(stream);
           source.connect(analyser);
           console.log("connected to:", stream);
         }).catch(
-        // Error callback
         function (err) {
           console.log('The following gUM error occured: ' + err);
         }
@@ -39,38 +36,42 @@ listener.init = () => {
 /////////////////
 // analyze bytes (spectrum band analyzer)
 ////////////////
-let byteAnalysis = () => {
+// get byteFrequencyData
+const byteAnalysis = () => {
   analyser.fftSize = 2048;
   const bufferLength = analyser.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);
   analyser.getByteFrequencyData(dataArray);
   return dataArray;
 }
-let getEnergy = function(freqDomain, range) { ///// thanks p5.js-Audio!
+// get snapshot of waveform energy (0-255).
+// input: byteFrequencyData, [frequencyLowerLimit, frequencyUpperLimit]
+const getEnergy = function(freqDomain, range) { ///// thanks p5.js-Audio..
   if (!range || !Array.isArray(range)) {
     range = false;
   }
-  let nyquist = audioCtx.sampleRate / 2;  // this is clutch..
-  let lowIndex = range ? Math.round(range[0] / nyquist * freqDomain.length) : 0;
-  let highIndex = range ? Math.round(range[1] / nyquist * freqDomain.length) : freqDomain.length - 1;
+  const nyquist = audioCtx.sampleRate / 2;  // ..for this, specifically.
+  const lowIndex = range ? Math.round(range[0] / nyquist * freqDomain.length) : 0;
+  const highIndex = range ? Math.round(range[1] / nyquist * freqDomain.length) : freqDomain.length - 1;
   let total = 0;
   let numFrequencies = 0;
-  // add up all of the values for the frequencies
   for (let i = lowIndex; i <= highIndex; i++) {
     total += freqDomain[i];
     numFrequencies += 1;
   }
-  let toReturn = total / numFrequencies;
+  const toReturn = total / numFrequencies;
   return toReturn;
-};
+}
 
 /////////////////////////////
 // frequency band listeners
+// update with listener.name.update()
+// then access snapshot of audio data with listener.name.freqData
 ////////////////////////////
 class FrequencyBand  {
   constructor(freqRanges) {
     this.freqRanges = (freqRanges) ? freqRanges : {
-      audibleSpectrum : [20, 1400]
+      audibleSpectrum : [20, 14000]
     }
     this.freqData = {}
     this.update = () => {
@@ -81,7 +82,12 @@ class FrequencyBand  {
     }
   }
 }
-
+// constructor
+listener.newFrequencyBand = function (name, freqObj) {
+  listener[name] = new FrequencyBand(freqObj);
+}
+// defaults
+listener.fullSpectrum = new FrequencyBand({});
 listener.pentaBand = new FrequencyBand({
   bass : [20, 100],
   lowMid : [100, 300],
@@ -89,20 +95,20 @@ listener.pentaBand = new FrequencyBand({
   highMid : [2500, 5200],
   high : [5200, 14000]
 });
+listener.triBand = new FrequencyBand({
+  bass: [20, 300],
+  mid: [300, 2600],
+  high: [2600, 14000]
+});
 
+
+
+///////////////
+// other listeners
+///////////////
 listener.average = () => {
   let avg =getEnergy(byteAnalysis())
   return avg;
 }
-
-
-//////
-
-
-// test
-// setInterval(function(){
-//   listener.pentaBand.update();
-  // console.log(listener.pentaBand.freqData);
-// },300)
 
 export default listener

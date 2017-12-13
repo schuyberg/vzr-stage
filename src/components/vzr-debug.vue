@@ -15,8 +15,9 @@
 </template>
 
 <script>
-  import li from '../listener.js'
   import Vue from 'vue'
+  import listener from '../listener.js'
+  import triggers from '../triggers.js'
   export default {
     name: 'vzrDebug',
     data () {
@@ -28,10 +29,28 @@
     },
     created () {
       let self = this;
-      li.init()
-      self.draw();
+      listener.init()
+      triggers.newTriggerObserver('dbg')
+      triggers.dbg.add([
+        testTrigger,
+        testTrigger2
+      ])
+      // test trigger
+      function testTrigger(data) {
+        if(data){
+          self.freqData = data.pentaBand;
+          self.avg = data.avg;
+        } else {
+          console.log('no data!')
+        }
+      }
+      function testTrigger2(data){
+        if (data.avg > 20) {
+          self.avg = data.avg + 100
+        }
+      }
+      self.draw()
       // some things are just easier this way..
-//      self.showDebugger = (NODE_ENV && NODE_ENV === 'dev') ? true : false;
         $('body').on('keyup', function (e) {
         if(e.which == 68) {
           self.showDebugger = !self.showDebugger;
@@ -47,9 +66,11 @@
         return styleObj;
       },
       draw : function () {
-        li.pentaBand.update()
-        this.freqData = li.pentaBand.freqData;
-        this.avg = li.average();
+        listener.pentaBand.update()
+        triggers.step({
+          pentaBand : listener.pentaBand.freqData,
+          avg : listener.average()
+        });
         window.requestAnimationFrame(this.draw);
       }
     }
