@@ -6,31 +6,36 @@
 const vzrTrigger = {}
 const triggers = []
 // TriggerObserver
+// trigger must be a function that should return data if conditions are met.
 class TriggerObserver {
   constructor() {
     this.observers = [];
-    this.add = (fn) => {
-      if (Array.isArray(fn)) {
-        this.observers = this.observers.concat(fn)
+    this.add = (trigger) => {
+      if (Array.isArray(trigger)) {
+        this.observers = this.observers.concat(trigger)
       } else {
-        this.observers.push(fn);
+        this.observers.push(trigger);
       }
     }
-    this.remove = (fn) => {
-      this.observers = this.observers.filter((subscriber) => subscriber !== fn);
+    this.remove = (trigger) => {
+      this.observers = this.observers.filter((subscriber) => subscriber !== trigger);
     }
     this.broadcast = (data) => {
       this.observers.forEach((subscriber) => subscriber(data));
     }
   }
 }
+
+// TriggerObserver Groups
 // create new triggerObserver
-vzrTrigger.newTriggerObserver = function (t) {
-    vzrTrigger[t] = new TriggerObserver()
-    triggers.push(vzrTrigger[t])
+vzrTrigger.newTriggerObserver = function (group) {
+    vzrTrigger[group] = new TriggerObserver()
+    triggers.push(vzrTrigger[group])
 }
 // remove triggerObserver
-
+vzrTrigger.removeTriggerObserver = function(group) {
+  delete vzrTrigger[group]
+}
 
 // fire triggers on each animation frame AFTER listener.name.update() is called
 vzrTrigger.step = (data) => {
@@ -39,10 +44,7 @@ vzrTrigger.step = (data) => {
   })
 }
 
-// example / test
-// (typically in view:)
-// vzrTrigger.newTriggerObserver('triggerGrp');
-// vzrTrigger.triggerGrp.add(example_trigger);
+// example trigger
 // function example_trigger(data) {
 //   if(data){
 //     console.log(data)
@@ -50,8 +52,7 @@ vzrTrigger.step = (data) => {
 //     console.log('no data!')
 //   }
 // }
-// listener.pentaBand.update()
-// vzrTrigger.step(listener.pentaBand.freqData)
+
 
 
 export default vzrTrigger

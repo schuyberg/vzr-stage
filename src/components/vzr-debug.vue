@@ -16,8 +16,7 @@
 
 <script>
   import Vue from 'vue'
-  import listener from '../vzr/vzr-listen.js'
-  import triggers from '../vzr/vzr-trigger.js'
+  import vzr from '../vzr/vzr'
   export default {
     name: 'vzrDebug',
     data () {
@@ -29,12 +28,7 @@
     },
     created () {
       let self = this;
-      listener.init()
-      triggers.newTriggerObserver('dbg')
-      triggers.dbg.add([
-        testTrigger,
-        testTrigger2
-      ])
+      vzr.addTrigger('dbg', [testTrigger, testTrigger2])
       // test trigger
       function testTrigger(data) {
         if(data){
@@ -45,13 +39,16 @@
         }
       }
       function testTrigger2(data){
-        if (data.avg > 20) {
-          self.avg = data.avg + 100
+        console.log(data)
+        if (data.average > 20) {
+          self.avg = data.average + 100
+        } else {
+          self.avg = data.average;
         }
       }
       self.draw()
       // some things are just easier this way..
-        $('body').on('keyup', function (e) {
+      $('body').on('keyup', function (e) {
         if(e.which == 68) {
           self.showDebugger = !self.showDebugger;
         }
@@ -66,11 +63,12 @@
         return styleObj;
       },
       draw : function () {
-        listener.pentaBand.update()
-        triggers.step({
-          pentaBand : listener.pentaBand.data,
-          avg : listener.average.data()
-        });
+        // listener.pentaBand.update()
+        // triggers.step({
+        //   pentaBand : listener.pentaBand.data,
+        //   avg : listener.average.data()
+        // });
+        vzr.step();
         window.requestAnimationFrame(this.draw);
       }
     }
