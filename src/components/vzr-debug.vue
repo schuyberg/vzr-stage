@@ -16,8 +16,8 @@
 
 <script>
   import Vue from 'vue'
-  import listener from '../listener.js'
-  import triggers from '../triggers.js'
+  import listener from '../vzr/vzr-listen.js'
+  import triggers from '../vzr/vzr-trigger.js'
   export default {
     name: 'vzrDebug',
     data () {
@@ -68,8 +68,8 @@
       draw : function () {
         listener.pentaBand.update()
         triggers.step({
-          pentaBand : listener.pentaBand.freqData,
-          avg : listener.average()
+          pentaBand : listener.pentaBand.data,
+          avg : listener.average.data()
         });
         window.requestAnimationFrame(this.draw);
       }

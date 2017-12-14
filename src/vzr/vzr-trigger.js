@@ -1,8 +1,7 @@
 /////////////////////////////
-// VZR TRIGGERS
+// VZR TRIGGER
 // maintains a list of 'triggerObservers' that, in turn
 ////////////////////////////
-import listener from './listener.js'
 
 const vzrTrigger = {}
 const triggers = []

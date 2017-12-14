@@ -1,5 +1,5 @@
 /////////////////////////////
-// VZR LISTENER
+// VZR-LISTEN
 // listens to audio source input and provides FFT output
 ////////////////////////////
 
@@ -73,11 +73,11 @@ class FrequencyBand  {
     this.freqRanges = (freqRanges) ? freqRanges : {
       audibleSpectrum : [20, 14000]
     }
-    this.freqData = {}
+    this.data = {}
     this.update = () => {
       let dataArray = byteAnalysis();
       for (const f in this.freqRanges) {
-        this.freqData[f] = getEnergy(dataArray, this.freqRanges[f]);
+        this.data[f] = getEnergy(dataArray, this.freqRanges[f]);
       }
     }
   }
@@ -106,9 +106,11 @@ listener.triBand = new FrequencyBand({
 ///////////////
 // other listeners
 ///////////////
-listener.average = () => {
-  let avg =getEnergy(byteAnalysis())
-  return avg;
+listener.average = {
+  data : () => {
+    let avg = getEnergy(byteAnalysis())
+    return avg;
+  }
 }
 
 export default listener
