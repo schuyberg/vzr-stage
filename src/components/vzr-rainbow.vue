@@ -32,9 +32,9 @@
         if(!data) { return }
         let frameGradient = []
         // modulate saturation
-        data.pentaBand.high = util.weightVal(data.pentaBand.high, 3, 255)
-        data.pentaBand.highMid = util.weightVal(data.pentaBand.highMid, 2, 255)
-        data.pentaBand.mid = util.weightVal(data.pentaBand.mid, 1.5, 255)
+        data.pentaBand.high = util.weightVal(data.pentaBand.high, 2, 255)
+        data.pentaBand.highMid = util.weightVal(data.pentaBand.highMid, 1.5, 255)
+        data.pentaBand.mid = util.weightVal(data.pentaBand.mid, 1.2, 255)
         let pbArr = Object.values(data.pentaBand)
         rgbVals.forEach((v, i) => {
           let hsl = util.colorConverter.rgbToHsl(v);

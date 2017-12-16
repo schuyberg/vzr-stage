@@ -2,9 +2,9 @@
 
 A music visualization suite.
 
-in progress.. more docs and a 'standalone' version of vzr code coming soon.
+in progress.. docs and a 'standalone' version of vzr code coming soon.
 
-if you're keen, the following commands should get you started...
+if you're keen, the following should get you started...
 
         npm install
         npm run dev
