@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <vzr-rainbow></vzr-rainbow>
     <vzr-debug></vzr-debug>
     <div id="viz">
     </div>
@@ -8,9 +9,10 @@
 
 <script>
   import vzrDebug from './components/vzr-debug.vue';
+  import vzrRainbow from './components/vzr-rainbow.vue';
   export default {
     name: 'app',
-    components: { vzrDebug }
+    components: { vzrDebug, vzrRainbow }
   }
 </script>
 

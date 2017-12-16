@@ -1,24 +1,27 @@
 /////////////////////////////
-// VZR
-// vzr base and global parameters
+// VZR base
 /////////////////////////////
 import vzrListen from './vzr-listen'
 import vzrTrigger from './vzr-trigger'
 
-
 const vzr = {}
-// globals
+
 vzr.globals = {
-  smoothingConstant: 0.85,
   sensitivity : 1
 }
-vzrListen.analyser.smoothingTimeConstant = vzr.globals.smoothingConstant;
-vzrListen.init();
+
+const defaultParams = {
+  smoothingConstant: 0.85,
+  listeners: ['average', 'pentaBand']
+}
+vzr.init = function(params){
+  params = params ? params : defaultParams;
+  vzrListen.init(params);
+}
 
 // step (call on animation frame)
 vzr.step = () => {
   const data = vzr.listen(vzrListen.listeners);
-  // console.log(data)
   vzrTrigger.step(data);
 }
 
@@ -38,6 +41,7 @@ vzr.removeTrigger = (group, trigger) => {
 }
 
 // get audio data and apply global mods
+// called in step(), exposed just in case
 vzr.listen = (names) => {
   const data = {}
   if(Array.isArray(names)){
@@ -59,8 +63,6 @@ vzr.listen = (names) => {
   }
   return data;
 }
-
-
-// note: use methods in vzr-listen to create more listeners
+// note: use methods in vzr-listen to create new listeners
 
 export default vzr

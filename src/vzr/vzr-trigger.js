@@ -53,6 +53,4 @@ vzrTrigger.step = (data) => {
 //   }
 // }
 
-
-
 export default vzrTrigger

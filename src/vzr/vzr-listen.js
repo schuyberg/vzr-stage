@@ -9,12 +9,21 @@ let audioCtx = new (window.AudioContext || window.webkitAudioContext)(),
   source,
   stream;
 vzrListen.analyser = audioCtx.createAnalyser();
-vzrListen.analyser.smoothingTimeConstant = 0.85;
 
-vzrListen.init = () => {
+vzrListen.analyser.smoothingTimeConstant = 0.85;
+vzrListen.listeners = []
+let listening = false;
+
+vzrListen.init = (params) => {
   console.log('listen!');
+  if(params){
+    vzrListen.analyser.smoothingTimeConstant = params.smoothingConstant
+    vzrListen.listeners = params.listeners;
+  }
+  //TODO: option to use other audio sources (ie. embedded media)
   if (navigator.mediaDevices.getUserMedia) {
-    console.log('getUserMedia supported.');
+    if (listening) { return console.log('already listening.')}
+    listening = true;
     setTimeout(function () {
       navigator.mediaDevices.getUserMedia(
         {
@@ -23,10 +32,11 @@ vzrListen.init = () => {
         function (stream) {
           source = audioCtx.createMediaStreamSource(stream);
           source.connect(vzrListen.analyser);
-          console.log("connected to:", stream);
+          console.log("listening to:", stream);
         }).catch(
         function (err) {
           console.log('The following gUM error occured: ' + err);
+          listening = false;
         }
       )
     }, 600);
@@ -56,10 +66,10 @@ class FrequencyBand  {
 // byte analysis (spectrum band analyzer)
 // get byteFrequencyData
 const byteAnalysis = () => {
-  analyser.fftSize = 2048;
-  const bufferLength = analyser.frequencyBinCount;
+  vzrListen.analyser.fftSize = 2048;
+  const bufferLength = vzrListen.analyser.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);
-  analyser.getByteFrequencyData(dataArray);
+  vzrListen.analyser.getByteFrequencyData(dataArray);
   return dataArray;
 }
 // get snapshot of waveform energy (0-255).
@@ -87,12 +97,11 @@ const getEnergy = function (freqDomain, range) { ///// thanks p5.js-Audio..
 /////////////////
 // listeners
 ////////////////
-vzrListen.listeners = ['pentaBand', 'triBand', 'average']
 // create new listener
 //TODO: make a general purpose listener constructor that works for all types of listeners
 vzrListen.newFrequencyBand = function (name, freqObj) {
   vzrListen[name] = new FrequencyBand(freqObj);
-  vzrListen.listeners.push(name);
+  // vzrListen.listeners.push(name);
 }
 
 // defaults

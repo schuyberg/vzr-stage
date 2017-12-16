@@ -23,11 +23,12 @@
       return {
         freqData: {},
         avg: '',
-        showDebugger: true
+        showDebugger: false
       }
     },
     created () {
       let self = this;
+      vzr.init();
       vzr.addTrigger('dbg', [testTrigger, testTrigger2])
       // test trigger
       function testTrigger(data) {
@@ -39,7 +40,6 @@
         }
       }
       function testTrigger2(data){
-        console.log(data)
         if (data.average > 20) {
           self.avg = data.average + 100
         } else {
@@ -63,11 +63,6 @@
         return styleObj;
       },
       draw : function () {
-        // listener.pentaBand.update()
-        // triggers.step({
-        //   pentaBand : listener.pentaBand.data,
-        //   avg : listener.average.data()
-        // });
         vzr.step();
         window.requestAnimationFrame(this.draw);
       }
