@@ -48,9 +48,7 @@
         });
         self.setGradient(makeGradient(frameGradient));
       }
-
       rgbVals.forEach((v, i) => { console.log( v) })
-
       function makeGradient(vals){
         let g = 'linear-gradient(to top,';
         let rgb = vals.map(c=>
@@ -60,26 +58,15 @@
         g += ')'
         return g;
       }
-      // self.setGradient(makeGradient(rgbVals));
-      self.draw()
     },
     calculated: {},
     methods: {
-      // freqColor: function (data) {
-      //   let i = (Math.round(data) / 2) + 10;
-      //   let styleObj = {"background-color": "hsla(124," + i + "%, 45%, 1)"}
-      //   return styleObj;
-      // },
       setGradient : function(gradient) {
         let styleObj = {
           'background' : gradient
         }
         // console.log(styleObj)
         this.bgGradient = styleObj
-      },
-      draw: function () {
-        vzr.step();
-        window.requestAnimationFrame(this.draw);
       }
     }
   }

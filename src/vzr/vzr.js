@@ -6,27 +6,42 @@ import vzrTrigger from './vzr-trigger'
 
 const vzr = {}
 
+// globals can be changed downstream during playback
 vzr.globals = {
   sensitivity : 1
 }
 
-const defaultParams = {
+// init params are set on visualization load
+const initParams = {
   smoothingConstant: 0.85,
-  listeners: ['average', 'pentaBand']
-}
-vzr.init = function(params){
-  params = params ? params : defaultParams;
-  vzrListen.init(params);
+  listeners: ['average', 'pentaBand'],
+  customLoop : false
 }
 
-// step (call on animation frame)
+vzr.init = function(params){  // REQUIRED
+  params = params ? params : initParams;
+  vzrListen.init(params);
+  if (!params.customLoop && !drawing) {
+    draw();
+  }
+}
+
+// animation loop
+let drawing = false;
+let draw = function() {
+  drawing = true;
+  vzr.step();
+  window.requestAnimationFrame(draw);
+}
+
+// step (call on animation frame if using a custom loop, otherwise handled by init())
 vzr.step = () => {
   const data = vzr.listen(vzrListen.listeners);
   vzrTrigger.step(data);
 }
 
 // add / remove triggers
-vzr.addTrigger = (group, trigger) => {
+vzr.addTrigger = (group, trigger) => { // REQUIRED
   if(!vzrTrigger[group]) {
     vzrTrigger.newTriggerObserver(group)
   }

@@ -4,6 +4,12 @@ utils.weightVal = function(val, amount, max) {
   return (val * amount < max) ? val * amount : max
 }
 
+utils.limiter = function(input, lowerLimit, upperLimit) {
+  let ret = (input < lowerLimit) ? lowerLimit : input;
+  ret = (ret > upperLimit) ? upperLimit : ret;
+  return ret;
+}
+
 utils.colorConverter = {}
 //// color conversions 'borrowed' mostly wholesale from https://gist.github.com/mjackson/5311max
 // ~~~~~~~~~~~~~~~~~~ thank you kind sir.

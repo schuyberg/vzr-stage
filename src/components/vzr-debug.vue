@@ -46,7 +46,7 @@
           self.avg = data.average;
         }
       }
-      self.draw()
+//      self.draw()
       // some things are just easier this way..
       $('body').on('keyup', function (e) {
         if(e.which == 68) {
@@ -62,10 +62,10 @@
         let styleObj = { "background-color" : "hsla(124,"+i+"%, 45%, 1)" }
         return styleObj;
       },
-      draw : function () {
-        vzr.step();
-        window.requestAnimationFrame(this.draw);
-      }
+//      draw : function () {
+//        vzr.step();
+//        window.requestAnimationFrame(this.draw);
+//      }
     }
   }
 </script>
