@@ -18,11 +18,11 @@
       let self = this;
       // hipster muted rainbow
       const rgbVals = [
-        [248, 12, 18],
-        [254, 174, 45],
-        [105, 208, 37],
-        [18, 189, 185],
-        [68, 34, 153]
+        [248, 12, 18], // red
+        [254, 174, 45], // orange
+        [105, 208, 37], // green
+        [18, 189, 185], // blue
+        [68, 34, 153] // violet
       ]
 
       vzr.init();
@@ -36,13 +36,17 @@
         data.pentaBand.highMid = util.weightVal(data.pentaBand.highMid, 1.5, 255)
         data.pentaBand.mid = util.weightVal(data.pentaBand.mid, 1.2, 255)
         let pbArr = Object.values(data.pentaBand)
-        rgbVals.forEach((v, i) => {
+        rgbVals.forEach((v, i) => {  // TODO: messing up the color order? looks fine anyway..
           let hsl = util.colorConverter.rgbToHsl(v);
           hsl[1] = pbArr[i] / 255
-          hsl[2] = hsl[2] * pbArr[i] / 255
+          hsl[2] = util.limiter(hsl[2] * pbArr[i] / 255, 0, 230)
+
           if (data.average > 15) {
             hsl[1] = hsl[1] + 0.2
-            hsl[2] = hsl[2] * data.average / 15
+            util.limiter(hsl[2] = hsl[2] * data.average / 22, 0, 250)
+          } else if (data.average > 18) {
+              hsl[1] = hsl[1] + 0.2
+              hsl[2] = hsl[2] * data.average / 10
           }
           frameGradient.push(util.colorConverter.hslToRgb(hsl))
         });
