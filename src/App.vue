@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <vzr-rainbow></vzr-rainbow>
-    <vzr-squares></vzr-squares>
+    <!--<vzr-squares></vzr-squares>-->
+    <vzr-text></vzr-text>
+
 
     <vzr-debug></vzr-debug>
     <div id="viz">
@@ -10,12 +12,24 @@
 </template>
 
 <script>
+  import vzr from './vzr/vzr'
+
   import vzrDebug from './components/vzr-debug.vue'
   import vzrRainbow from './components/vzr-rainbow.vue'
   import vzrSquares from './components/vzr-squares.vue'
+  import vzrText from './components/vzr-text.vue'
+
   export default {
     name: 'app',
-    components: { vzrDebug, vzrSquares, vzrRainbow }
+    components: {
+      vzrDebug,
+      vzrSquares,
+      vzrRainbow,
+      vzrText
+    },
+    created () {
+      vzr.init();
+    }
   }
 </script>
 

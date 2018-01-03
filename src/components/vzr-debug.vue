@@ -40,11 +40,11 @@
         }
       }
       function testTrigger2(data){
-        if (data.average > 20) {
-          self.avg = data.average + 100
-        } else {
+        // if (data.average > 20) {
+        //   self.avg = data.average + 100
+        // } else {
           self.avg = data.average;
-        }
+        // }
       }
 //      self.draw()
       // some things are just easier this way..
