@@ -3,19 +3,33 @@
     <vzr-rainbow :show="rainbow"></vzr-rainbow>
     <vzr-squares :show="squares"></vzr-squares>
     <vzr-debug :show="dbg"></vzr-debug>
+
+    <vzr-text></vzr-text>
+
+
+    <vzr-debug></vzr-debug>
     <div id="viz">
     </div>
   </div>
 </template>
 
 <script>
+  import vzr from './vzr/vzr'
+
   import vzrDebug from './components/vzr-debug.vue'
   import vzrRainbow from './components/vzr-rainbow.vue'
   import vzrSquares from './components/vzr-squares.vue'
+  import vzrText from './components/vzr-text.vue'
+
   export default {
     name: 'app',
-    components: { vzrDebug, vzrSquares, vzrRainbow },
-    data () {
+  components: {
+    vzrDebug,
+    vzrSquares,
+    vzrRainbow,
+    vzrText
+  },
+  data () {
       return {
         rainbow: true,
         dbg: false,
@@ -23,7 +37,8 @@
       }
     },
     created () {
-      let self = this;
+    vzr.init();
+    let self = this;
       // some things are just easier this way..
       $('body').on('keyup', function (e) {
         console.log(e.which)
