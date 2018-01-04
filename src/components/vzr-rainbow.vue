@@ -1,5 +1,5 @@
 <template>
-    <div id="rainbow" v-bind:style="bgGradient"></div>
+    <div v-if="show" id="rainbow" v-bind:style="bgGradient"></div>
 </template>
 
 <script>
@@ -8,6 +8,7 @@
   import util from '../vzr/vzr-util'
   export default {
     name: 'vzrRainbow',
+    props: ['show'],
     data() {
       return {
         title : 'rainbow',

@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <vzr-rainbow></vzr-rainbow>
-    <vzr-squares></vzr-squares>
-
-    <vzr-debug></vzr-debug>
+    <vzr-rainbow :show="rainbow"></vzr-rainbow>
+    <vzr-squares :show="squares"></vzr-squares>
+    <vzr-debug :show="dbg"></vzr-debug>
     <div id="viz">
     </div>
   </div>
@@ -15,7 +14,32 @@
   import vzrSquares from './components/vzr-squares.vue'
   export default {
     name: 'app',
-    components: { vzrDebug, vzrSquares, vzrRainbow }
+    components: { vzrDebug, vzrSquares, vzrRainbow },
+    data () {
+      return {
+        rainbow: true,
+        dbg: false,
+        squares: true
+      }
+    },
+    created () {
+      let self = this;
+      // some things are just easier this way..
+      $('body').on('keyup', function (e) {
+        console.log(e.which)
+        if(e.which == 66) {
+          self.dbg = !self.dbg;
+        }
+        if(e.which == 49) {
+          self.rainbow = !self.rainbow;
+        }
+        if(e.which == 50) {
+          self.squares = !self.squares;
+        }
+      });
+    },
+    methods: {
+    }
   }
 </script>
 
@@ -41,7 +65,7 @@
   width: 170px;
 }
 body {
-  background-color: gray;
+  background-color: black;
 }
 
 h1, h2 {

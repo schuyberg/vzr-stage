@@ -1,16 +1,17 @@
 <template>
     <div class="#debugger">
-      <table class="debugtable" v-if="showDebugger">
-        <tr>
-          <th>avg</th>
-          <td v-bind:style="freqColor(avg)">{{ avg }}</td>
-        </tr>
-        <tr v-for="v, k in freqData">
-          <th>{{ k }}</th>
-          <td v-bind:style="freqColor(v)">{{ v }}</td>
-        </tr>
-      </table>
-      <!--<p v-for="v, k in freqData">{{ k }} : {{ v }}</p>-->
+      <template v-if="show">
+        <table class="debugtable">
+          <tr>
+            <th>avg</th>
+            <td v-bind:style="freqColor(avg)">{{ avg }}</td>
+          </tr>
+          <tr v-for="v, k in freqData">
+            <th>{{ k }}</th>
+            <td v-bind:style="freqColor(v)">{{ v }}</td>
+          </tr>
+        </table>
+      </template>
     </div>
 </template>
 
@@ -19,14 +20,17 @@
   import vzr from '../vzr/vzr'
   export default {
     name: 'vzrDebug',
+    props: ['show'],
     data () {
       return {
         freqData: {},
         avg: '',
-        showDebugger: false
+//        showDebugger: false
+//        show: true
       }
     },
     created () {
+      console.log(this.show)
       let self = this;
       vzr.init();
       vzr.addTrigger('dbg', [testTrigger, testTrigger2])
@@ -47,12 +51,8 @@
         }
       }
 //      self.draw()
-      // some things are just easier this way..
-      $('body').on('keyup', function (e) {
-        if(e.which == 68) {
-          self.showDebugger = !self.showDebugger;
-        }
-      })
+    },
+    watch: {
     },
     calculated: {
     },
@@ -61,11 +61,7 @@
         let i = (Math.round(data) / 2) + 10;
         let styleObj = { "background-color" : "hsla(124,"+i+"%, 45%, 1)" }
         return styleObj;
-      },
-//      draw : function () {
-//        vzr.step();
-//        window.requestAnimationFrame(this.draw);
-//      }
+      }
     }
   }
 </script>
