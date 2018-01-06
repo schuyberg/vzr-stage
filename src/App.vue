@@ -30,8 +30,8 @@
       return {
         rainbow: true,
         dbg: false,
-        squares: true,
-        txt: true
+        squares: false,
+        txt: false
       }
     },
     created () {
