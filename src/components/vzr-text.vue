@@ -25,7 +25,7 @@
     data () {
       return {
         words: 'test ',
-        wLength: 2000,
+        wLength: 10000,
         textbox: {
           styleObj: {
             width: '100%',
@@ -36,39 +36,45 @@
     },
     created () {
       let self = this;
-
-      const changeWords = _.debounce(function () {
-        console.log('fire!')
+      const changeWords = _.throttle(function (d) {
         self.words = '';
         let word = vocabulary[Math.floor(Math.random() * vocabulary.length)] + ' '
         for (let i = 0; i < self.wLength; i++) {
           self.words += word
         }
-      }, 50, true)
+        let rand = _.random(0.6, 1.6)
+        let newSize = _.clamp(d.average * rand, 9, 60)
+        self.textbox.styleObj["font-size"] = newSize + 'px'
 
+      }, 400)
       const boxSize = _.debounce(function(d) {
         let proportion = 100;
         if (d.average > 15) {
-          proportion = 100 - d.average
+          proportion = 100 - _.clamp(d.pentaBand.high / 2, 0, 15)
         }
-        self.textbox.styleObj.height = proportion + '%'
+        // self.textbox.styleObj.height = proportion + '%'
         self.textbox.styleObj.width = proportion + '%'
-      }, 200, true)
+      }, 20, true)
+      // const fontSize = _.debounce(function(d){
+      //   // let rand = _.random(0.1, 1.9)
+      //   let newSize = _.clamp(d.average * 1.2, 5, 40)
+      //   self.textbox.styleObj["font-size"] = newSize + 'px'
+      // }, 30, true)
+
+      let lastVal = 0;
+      const strLength = _.debounce(function (d) {
+      })
 
       vzr.addTrigger('text', [tt1])
       function tt1(data) {
-        if (data.average > 10) {
-          changeWords();
+        if (data.average > 20) {
+          changeWords(data);
+          self.textbox.styleObj.transform = "translateX(-50%) translateY(-500%)"
+        } else {
+          self.textbox.styleObj.transform ="translateX(-50%) translateY(-50%)"
         }
         boxSize(data)
-
-
       }
-
-
-
-
-
 
       // some things are just way easier with jquery..
       $('body').on('keyup', function (e) {
@@ -99,7 +105,7 @@
     display: block;
     color: black;
     border: none;
-    transition: width 0.5s, height 0.5s;
+    transition: width 0.5s, height 0.5s, font-size 0.2s, transform 10s;
     word-break: break-all;
   }
   .textbox span {

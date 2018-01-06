@@ -51,12 +51,54 @@
         if(e.which == 50) {
           self.squares = !self.squares;
         }
+        if (e.which == 61) {
+          vzr.globals.sensitivity += 0.05
+          console.log(vzr.globals.sensitivity)
+        }
+        if (e.which == 173) {
+          vzr.globals.sensitivity -= 0.05
+          console.log(vzr.globals.sensitivity)
+        }
       });
+
+      $('body').on('dblclick', function (e) {
+          toggleFullScreen();
+      });
+
+          function toggleFullScreen() {
+          if (
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+          ) {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+              document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+              document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+              document.msExitFullscreen();
+            }
+          } else {
+            let element = document.getElementById('app');
+            if (element.requestFullscreen) {
+              element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+              element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+              element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            } else if (element.msRequestFullscreen) {
+              element.msRequestFullscreen();
+            }
+          }
+        }
     },
     methods: {
     }
   }
-</script>
+</script>==
 
 <style>
 #app {
