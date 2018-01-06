@@ -77,6 +77,23 @@
             s.styleObj['background'] = 'none'
           }
         }
+        if (e.which == 83) {
+          self.sp.styleObj = {
+            'mix-blend-mode': 'exclusion'
+          }
+          for (let s of self.squares) {
+            s.styleObj['background'] = 'white'
+          }
+        }
+        if (e.which == 88) {
+          self.sp.styleObj = {
+            'mix-blend-mode': 'normal'
+          }
+          for (let s of self.squares) {
+            // s.styleObj['background'] = 'none'
+            // s.styleObj['border'] = "1 px solid #924cdf"
+          }
+        }
         // TODO: add style switcher
         // 'blocks mode':
         // #squares: mix-blend-mode: exclusion / soft-light / difference
@@ -108,5 +125,6 @@
    left: 50%;
    transform: translateX(-50%) translateY(-50%);
    display: block;
+
  }
 </style>

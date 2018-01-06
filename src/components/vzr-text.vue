@@ -1,10 +1,12 @@
 <template>
   <div id="textcontainer">
-    <div class="textbox" :style="textbox.styleObj">
-      <!--<span v-for="n in wLength" class="words">-->
-        {{ words }}
-      <!--</span>-->
-    </div>
+      <template v-if="show">
+          <div class="textbox" :style="textbox.styleObj">
+          <!--<span v-for="n in wLength" class="words">-->
+            {{ words }}
+          <!--</span>-->
+        </div>
+      </template>
   </div>
 </template>
 
@@ -22,6 +24,7 @@
   ]
   export default {
     name: 'vzrText',
+    props: ['show'],
     data () {
       return {
         words: 'test ',
@@ -67,6 +70,11 @@
 
       vzr.addTrigger('text', [tt1])
       function tt1(data) {
+        if (data.average > 0){
+          self.textbox.styleObj.opacity = 1;
+        } else {
+          self.textbox.styleObj.opacity = 0;
+        }
         if (data.average > 20) {
           changeWords(data);
           self.textbox.styleObj.transform = "translateX(-50%) translateY(-500%)"
@@ -105,8 +113,9 @@
     display: block;
     color: black;
     border: none;
-    transition: width 0.5s, height 0.5s, font-size 0.2s, transform 10s;
+    transition: width 0.5s, height 0.5s, font-size 0.2s, transform 10s, opacity 1s;
     word-break: break-all;
+      opacity: 0;
   }
   .textbox span {
     display: inline;

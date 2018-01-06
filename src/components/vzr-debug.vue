@@ -30,7 +30,6 @@
       }
     },
     created () {
-      console.log(this.show)
       let self = this;
       vzr.init();
       vzr.addTrigger('dbg', [testTrigger, testTrigger2])

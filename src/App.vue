@@ -2,12 +2,9 @@
   <div id="app">
     <vzr-rainbow :show="rainbow"></vzr-rainbow>
     <vzr-squares :show="squares"></vzr-squares>
+    <vzr-text :show="txt"></vzr-text>
+
     <vzr-debug :show="dbg"></vzr-debug>
-
-    <vzr-text></vzr-text>
-
-
-    <vzr-debug></vzr-debug>
     <div id="viz">
     </div>
   </div>
@@ -33,7 +30,8 @@
       return {
         rainbow: true,
         dbg: false,
-        squares: true
+        squares: true,
+        txt: true
       }
     },
     created () {
@@ -42,20 +40,23 @@
       // some things are just easier this way..
       $('body').on('keyup', function (e) {
         console.log(e.which)
-        if(e.which == 66) {
+        if(e.which == 48) {  // 0
           self.dbg = !self.dbg;
         }
-        if(e.which == 49) {
+        if(e.which == 49) { // 1
           self.rainbow = !self.rainbow;
         }
-        if(e.which == 50) {
+        if(e.which == 50) { // 2
           self.squares = !self.squares;
         }
-        if (e.which == 61) {
+        if (e.which == 51) { // 3
+          self.txt = !self.txt;
+        }
+        if (e.which == 61) { // =
           vzr.globals.sensitivity += 0.05
           console.log(vzr.globals.sensitivity)
         }
-        if (e.which == 173) {
+        if (e.which == 173) {  // -
           vzr.globals.sensitivity -= 0.05
           console.log(vzr.globals.sensitivity)
         }
