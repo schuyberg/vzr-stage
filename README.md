@@ -9,4 +9,4 @@ For now, you can get up and running with:
         npm install
         npm run dev
         
-More on using VZR [here]('/vzr/README.md')
+More on using VZR [here](./vzr/README.md)
