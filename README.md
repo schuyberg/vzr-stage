@@ -1,10 +1,12 @@
 # vzr-stage
 
-A music visualization suite.
+A live music visualization suite built with Vue and VZR.
 
-in progress.. docs and a 'standalone' version of vzr code coming soon.
+Better docs and a 'standalone' version of VZR coming soon...
 
-if you're keen, the following should get you started...
+For now, you can get up and running with:
 
         npm install
         npm run dev
+        
+More on using VZR [here]('/vzr/README.md')
