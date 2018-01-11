@@ -69,7 +69,7 @@
       }
       // some things are just way easier with jquery..
       $('body').on('keyup', function (e) {
-        if(e.which == 87) {
+        if(e.which == 87) { // w
           self.sp.styleObj = {
             'mix-blend-mode': 'overlay'
           }
@@ -77,7 +77,7 @@
             s.styleObj['background'] = 'none'
           }
         }
-        if (e.which == 83) {
+        if (e.which == 83) { // s
           self.sp.styleObj = {
             'mix-blend-mode': 'exclusion'
           }
@@ -85,13 +85,9 @@
             s.styleObj['background'] = 'white'
           }
         }
-        if (e.which == 88) {
+        if (e.which == 88) { // x
           self.sp.styleObj = {
             'mix-blend-mode': 'normal'
-          }
-          for (let s of self.squares) {
-            // s.styleObj['background'] = 'none'
-            // s.styleObj['border'] = "1 px solid #924cdf"
           }
         }
         // TODO: add style switcher

@@ -1,5 +1,5 @@
 <template>
-  <div id="textcontainer">
+  <div id="textcontainer" v-bind:style="container.styleObj">
       <template v-if="show">
           <div class="textbox" :style="textbox.styleObj">
           <!--<span v-for="n in wLength" class="words">-->
@@ -20,7 +20,78 @@
     'brrat',
     'thump',
     'woooo',
-    'barumph'
+    'barumph',
+    "badum tish",
+    "blare",
+    "blurp",
+    "breet",
+    "bum brrum brrrumble",
+    "bwow-chcka-bwow",
+    "cha-cha-cha",
+    "chiming",
+    "croon",
+    "deed-a-reedle",
+    "didgeridoo",
+    "dirnt",
+    "doo-wop",
+    "fanfare",
+    "fillip",
+    "gada, gada, gada",
+    "gong",
+    "groan",
+    "hum",
+    "jingle",
+    "jug",
+    "kra, ka, ka, hi",
+    "lilt",
+    "neow",
+    "oompah",
+    "oonse",
+    "pah-pa-rah",
+    "pickle-pee",
+    "plunk",
+    "pump-a-rum",
+    "rataplan",
+    "rinky-dink",
+    "rub-a-dub",
+    "snap",
+    "strum",
+    "thrum",
+    "tick",
+    "tinkling",
+    "Tluuck tluck tlawck tlock tlaack tlack tlick!",
+    "tom-tom",
+    "toot",
+    "tootle-too",
+    "trill",
+    "twang",
+    "tweeter",
+    "umpa",
+    "untz untz untz",
+    "wah-wah",
+    "whistle",
+    "whockah",
+    "wlu-wlu-wlu-wlu-wlu-wlu-wlu",
+    "woop woop",
+    "wub wub",
+    "yackety-yak",
+    "yodel",
+    "zoomba-zoom",
+    'Happy Birthday Norah!'
+  ]
+  let colors = [
+    '#1a1334',
+    '#26294a',
+    '#01545a',
+    '#017351',
+    '#03c383',
+    '#aad962',
+    '#fbbf45',
+    '#ef6a32',
+    '#ed0345',
+    '#a12a5e',
+    '#710162',
+    '#110141'
   ]
   export default {
     name: 'vzrText',
@@ -34,6 +105,9 @@
             width: '100%',
             height: '100%'
           }
+        },
+        container: {
+          styleObj: {}
         }
       }
     },
@@ -49,7 +123,7 @@
         let newSize = _.clamp(d.average * rand, 9, 60)
         self.textbox.styleObj["font-size"] = newSize + 'px'
 
-      }, 400)
+      }, 500)
       const boxSize = _.debounce(function(d) {
         let proportion = 100;
         if (d.average > 15) {
@@ -58,11 +132,31 @@
         // self.textbox.styleObj.height = proportion + '%'
         self.textbox.styleObj.width = proportion + '%'
       }, 20, true)
-      // const fontSize = _.debounce(function(d){
-      //   // let rand = _.random(0.1, 1.9)
-      //   let newSize = _.clamp(d.average * 1.2, 5, 40)
-      //   self.textbox.styleObj["font-size"] = newSize + 'px'
-      // }, 30, true)
+      const switchDirections = _.throttle(function(d){
+        if (d.average > 25){
+          self.textbox.styleObj.transform = "translateX(-50%) translateY(-500%)"
+        } else {
+          self.textbox.styleObj.transform ="translateX(-50%) translateY(-50%)"
+        }
+      }, 50)
+      let showThreshold = 3;
+//      const showText = _.throttle(function(d){
+//
+//      }, 50)
+      let shiftSpeed = 200;
+      let currentColor = 0
+      let solid = 'black'
+      const colorShift = _.throttle(function(d){
+        if (solid) {
+          self.textbox.styleObj.color = solid
+          return;
+        }
+        shiftSpeed = 200 - d.average * 2;
+//        currentColor = (currentColor === colors.length - 1) ? 0 : currentColor + 1;
+        currentColor = _.random(0, colors.length -1)
+        self.textbox.styleObj.color = colors[currentColor]
+      }, shiftSpeed)
+
 
       let lastVal = 0;
       const strLength = _.debounce(function (d) {
@@ -70,22 +164,49 @@
 
       vzr.addTrigger('text', [tt1])
       function tt1(data) {
-        if (data.average > 0){
+        if (data.average > 20) {
+          changeWords(data);
+        } else {
+        }
+//        showText(data)
+        if (data.average > showThreshold){
           self.textbox.styleObj.opacity = 1;
         } else {
           self.textbox.styleObj.opacity = 0;
         }
-        if (data.average > 20) {
-          changeWords(data);
-          self.textbox.styleObj.transform = "translateX(-50%) translateY(-500%)"
-        } else {
-          self.textbox.styleObj.transform ="translateX(-50%) translateY(-50%)"
-        }
+        switchDirections(data)
         boxSize(data)
+        colorShift(data)
+        if (dToggle && data.pentaBand.high > 30) {
+          if (solid === 'white') {
+            solid = 'black'
+          } else if (solid === 'black') {
+            solid = 'white'
+          }
+        }
       }
 
       // some things are just way easier with jquery..
+      let dToggle = false;
       $('body').on('keyup', function (e) {
+        if(e.which == 69) { // e
+          solid = false
+          self.container.styleObj['mix-blend-mode'] = 'normal'
+          colorShift()
+          dToggle = false
+        }
+        if(e.which == 68) { // d
+          dToggle = !dToggle
+          solid = (dToggle) ? 'black' : 'white'
+          self.container.styleObj['mix-blend-mode'] = 'normal'
+          colorShift()
+        }
+        if(e.which == 67) { // c
+          solid = 'white'
+          self.container.styleObj['mix-blend-mode'] = 'overlay'
+          colorShift()
+          dToggle = false
+        }
       })
     },
     calculated: {
@@ -113,7 +234,7 @@
     display: block;
     color: black;
     border: none;
-    transition: width 0.5s, height 0.5s, font-size 0.2s, transform 10s, opacity 1s;
+    transition: width 0.5s, height 0.5s, font-size 0.2s, transform 10s, opacity 1s, color 0.3s;
     word-break: break-all;
       opacity: 0;
   }
