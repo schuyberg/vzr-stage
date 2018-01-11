@@ -67,9 +67,9 @@
         self.squares[0].styleObj.width = data.pentaBand.high * 2 + 'px'
 
       }
-      // some things are just way easier with jquery..
-      $('body').on('keyup', function (e) {
-        if(e.which == 87) { // w
+
+      document.addEventListener('keyup', function (e) {
+        if(e.keyCode == 87) { // w
           self.sp.styleObj = {
             'mix-blend-mode': 'overlay'
           }
@@ -77,7 +77,7 @@
             s.styleObj['background'] = 'none'
           }
         }
-        if (e.which == 83) { // s
+        if (e.keyCode == 83) { // s
           self.sp.styleObj = {
             'mix-blend-mode': 'exclusion'
           }
@@ -85,7 +85,7 @@
             s.styleObj['background'] = 'white'
           }
         }
-        if (e.which == 88) { // x
+        if (e.keyCode == 88) { // x
           self.sp.styleObj = {
             'mix-blend-mode': 'normal'
           }
