@@ -188,20 +188,20 @@
 
       // TODO: stop using jquery here.
       let dToggle = false;
-      $('body').on('keyup', function (e) {
-        if(e.which == 69) { // e
+      document.addEventListener('keyup', function (e) {
+        if(e.keyCode == 69) { // e
           solid = false
           self.container.styleObj['mix-blend-mode'] = 'normal'
           colorShift()
           dToggle = false
         }
-        if(e.which == 68) { // d
+        if(e.keyCode == 68) { // d
           dToggle = !dToggle
           solid = (dToggle) ? 'black' : 'white'
           self.container.styleObj['mix-blend-mode'] = 'normal'
           colorShift()
         }
-        if(e.which == 67) { // c
+        if(e.keyCode == 67) { // c
           solid = 'white'
           self.container.styleObj['mix-blend-mode'] = 'overlay'
           colorShift()

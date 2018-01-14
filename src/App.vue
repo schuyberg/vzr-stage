@@ -35,66 +35,65 @@
       }
     },
     created () {
-    vzr.init();
-    let self = this;
-      // some things are just easier this way..
-      $('body').on('keyup', function (e) {
-        console.log(e.which)
-        if(e.which == 48) {  // 0
+      vzr.init();
+      let self = this;
+      document.addEventListener('keyup', function (e) {
+        if (e.keyCode == 48) {  // 0
           self.dbg = !self.dbg;
         }
-        if(e.which == 49) { // 1
+        if (e.keyCode == 49) { // 1
           self.rainbow = !self.rainbow;
         }
-        if(e.which == 50) { // 2
+        if (e.keyCode == 50) { // 2
           self.squares = !self.squares;
         }
-        if (e.which == 51) { // 3
+        if (e.keyCode == 51) { // 3
           self.txt = !self.txt;
         }
-        if (e.which == 61) { // =
+        if (e.keyCode == 61) { // =
           vzr.globals.sensitivity += 0.05
           console.log(vzr.globals.sensitivity)
         }
-        if (e.which == 173) {  // -
+        if (e.keyCode == 173) {  // -
           vzr.globals.sensitivity -= 0.05
           console.log(vzr.globals.sensitivity)
         }
+
       });
 
-      $('body').on('dblclick', function (e) {
-          toggleFullScreen();
+      document.addEventListener("dblclick", function(e){
+        toggleFullScreen()
       });
 
-          function toggleFullScreen() {
-          if (
-            document.fullscreenElement ||
-            document.webkitFullscreenElement ||
-            document.mozFullScreenElement ||
-            document.msFullscreenElement
-          ) {
-            if (document.exitFullscreen) {
-              document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-              document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-              document.msExitFullscreen();
-            }
-          } else {
-            let element = document.getElementById('app');
-            if (element.requestFullscreen) {
-              element.requestFullscreen();
-            } else if (element.mozRequestFullScreen) {
-              element.mozRequestFullScreen();
-            } else if (element.webkitRequestFullscreen) {
-              element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-            } else if (element.msRequestFullscreen) {
-              element.msRequestFullscreen();
-            }
+      function toggleFullScreen() {
+        if (
+          document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement
+        ) {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          }
+        } else {
+          let element = document.getElementById('app');
+          if (element.requestFullscreen) {
+            element.requestFullscreen();
+          } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+          } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+          } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
           }
         }
+      }
     },
     methods: {
     }
