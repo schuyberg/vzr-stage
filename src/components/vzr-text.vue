@@ -186,7 +186,7 @@
         }
       }
 
-      // some things are just way easier with jquery..
+      // TODO: stop using jquery here.
       let dToggle = false;
       $('body').on('keyup', function (e) {
         if(e.which == 69) { // e

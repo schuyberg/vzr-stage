@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-window.$ = require('jQuery') || require('../node_modules/jquery/dist/jquery.min.js')// yeah, wtf. make jquery global.
+window.$ = require('../node_modules/jquery/dist/jquery.min.js')// yeah, wtf. make jquery global.
 
 new Vue({
   el: '#app',
