@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "pubsub-js": "^1.5.7",
+    "two.js": "^0.7.0-alpha.1",
     "vue": "^2.4.4"
   },
   "browserslist": [

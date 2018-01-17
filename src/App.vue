@@ -3,6 +3,7 @@
     <vzr-rainbow :show="rainbow"></vzr-rainbow>
     <vzr-squares :show="squares"></vzr-squares>
     <vzr-text :show="txt"></vzr-text>
+    <vzr-pattern :show="pattern"></vzr-pattern>
 
     <vzr-debug :show="dbg"></vzr-debug>
     <div id="viz">
@@ -17,6 +18,7 @@
   import vzrRainbow from './components/vzr-rainbow.vue'
   import vzrSquares from './components/vzr-squares.vue'
   import vzrText from './components/vzr-text.vue'
+  import vzrPattern from './components/vzr-two-patterns.vue'
 
   export default {
     name: 'app',
@@ -24,14 +26,16 @@
     vzrDebug,
     vzrSquares,
     vzrRainbow,
-    vzrText
+    vzrText,
+    vzrPattern
   },
   data () {
       return {
-        rainbow: true,
+        rainbow: false,
         dbg: false,
         squares: false,
-        txt: false
+        txt: false,
+        pattern: true
       }
     },
     created () {
