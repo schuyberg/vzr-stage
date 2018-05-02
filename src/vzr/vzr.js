@@ -28,10 +28,22 @@ vzr.init = function(params){  // REQUIRED
 
 // animation loop
 let drawing = false;
+let pause = false;
 let draw = function() {
+  if (pause) return;
   drawing = true;
   vzr.step();
   window.requestAnimationFrame(draw);
+}
+
+vzr.stopStart = () => {
+  if(!pause){
+    pause = true
+    drawing = false
+  } else {
+    pause = false
+    draw()
+  }
 }
 
 // step (call on animation frame if using a custom loop, otherwise handled by init())

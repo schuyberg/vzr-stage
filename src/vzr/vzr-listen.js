@@ -10,7 +10,7 @@ let audioCtx = new (window.AudioContext || window.webkitAudioContext)(),
   stream;
 vzrListen.analyser = audioCtx.createAnalyser();
 
-vzrListen.analyser.smoothingTimeConstant = 0.85;
+vzrListen.analyser.smoothingTimeConstant = 0.9;
 vzrListen.listeners = []
 let listening = false;
 
@@ -124,4 +124,7 @@ vzrListen.average = {
     return avg;
   }
 }
+
+// detect relative changes in levels
+
 export default vzrListen

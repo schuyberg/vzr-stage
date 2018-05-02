@@ -1,5 +1,31 @@
 const utils = {}
 
+// todo: build this into triggers?
+class BumpDetector  {
+  constructor(bufferLen=20) {
+    this.bufferLen = bufferLen
+    this.buffer = []
+    this.test = (input, changeAmt, biDirectional=false) => {
+      let ret = false;
+      if (this.buffer.length > this.bufferLen) {
+        this.buffer.shift()
+      }
+      for (const val of this.buffer) {
+        if (input > val + changeAmt) {
+          ret = input
+        } else if (biDirectional && input < val - changeAmt) {
+          ret = input
+        }
+      }
+      this.buffer.push(input)
+      return ret;
+    }
+  }
+}
+utils.newBumpDetector = function(bufferLen){
+  return new BumpDetector(bufferLen)
+}
+
 utils.weightVal = function(val, amount, max) {
   return (val * amount < max) ? val * amount : max
 }
@@ -9,24 +35,6 @@ utils.limiter = function(input, lowerLimit, upperLimit) {
   ret = (ret > upperLimit) ? upperLimit : ret;
   return ret;
 }
-
-
-// Debounce from David Walsch's Blog:  -- use lodash instead.
-// utils.debounce = function(func, wait, immediate) {
-//   var timeout;
-//   return function () {
-//     var context = this, args = arguments;
-//     var later = function () {
-//       timeout = null;
-//       if (!immediate) func.apply(context, args);
-//     };
-//     var callNow = immediate && !timeout;
-//     clearTimeout(timeout);
-//     timeout = setTimeout(later, wait);
-//     if (callNow) func.apply(context, args);
-//   };
-// };
-
 
 utils.colorConverter = {}
 //// color conversions 'borrowed' mostly wholesale from https://gist.github.com/mjackson/5311max

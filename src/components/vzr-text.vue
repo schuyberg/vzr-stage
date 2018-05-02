@@ -186,7 +186,6 @@
         }
       }
 
-      // TODO: stop using jquery here.
       let dToggle = false;
       document.addEventListener('keyup', function (e) {
         if(e.keyCode == 69) { // e

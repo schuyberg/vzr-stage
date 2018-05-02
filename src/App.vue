@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <vzr-rainbow :show="rainbow"></vzr-rainbow>
-    <vzr-squares :show="squares"></vzr-squares>
-    <vzr-text :show="txt"></vzr-text>
-    <vzr-pattern :show="pattern"></vzr-pattern>
+    <!--<vzr-rainbow :show="rainbow"></vzr-rainbow>-->
+    <!--<vzr-squares :show="squares"></vzr-squares>-->
+    <!--<vzr-text :show="txt"></vzr-text>-->
+    <!--<vzr-pattern :show="pattern"></vzr-pattern>-->
+    <vzr-pattern-2 :show="pattern2"></vzr-pattern-2>
 
     <vzr-debug :show="dbg"></vzr-debug>
     <div id="viz">
@@ -18,7 +19,9 @@
   import vzrRainbow from './components/vzr-rainbow.vue'
   import vzrSquares from './components/vzr-squares.vue'
   import vzrText from './components/vzr-text.vue'
-  import vzrPattern from './components/vzr-two-patterns.vue'
+//  import vzrPattern from './components/vzr-two-patterns.vue'
+  import vzrPattern2 from './components/vzr-two-pattern2.vue'
+
 
   export default {
     name: 'app',
@@ -27,7 +30,8 @@
     vzrSquares,
     vzrRainbow,
     vzrText,
-    vzrPattern
+//    vzrPattern,
+    vzrPattern2
   },
   data () {
       return {
@@ -35,7 +39,8 @@
         dbg: false,
         squares: false,
         txt: false,
-        pattern: true
+//        pattern: false,
+        pattern2: true
       }
     },
     created () {
@@ -61,6 +66,10 @@
         if (e.keyCode == 173) {  // -
           vzr.globals.sensitivity -= 0.05
           console.log(vzr.globals.sensitivity)
+        }
+
+        if(e.keyCode == 32) {  // spacebar
+          vzr.stopStart()
         }
 
       });

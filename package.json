@@ -10,6 +10,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "@createjs/tweenjs": "github:createjs/tweenjs#2.0",
+    "@tweenjs/tween.js": "^17.2.0",
     "pubsub-js": "^1.5.7",
     "two.js": "^0.7.0-alpha.1",
     "vue": "^2.4.4"
