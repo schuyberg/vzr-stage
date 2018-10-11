@@ -16,7 +16,19 @@ module.exports = {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          {
+            loader: 'css-loader',
+            options: { importLoaders: 1 }
+          },
+          { loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: (loader) => [
+                require('precss')(),
+                require('autoprefixer')()
+              ]
+            }
+          }
         ],
       },      {
         test: /\.vue$/,

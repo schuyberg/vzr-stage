@@ -21,11 +21,13 @@
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
+    "autoprefixer": "^9.1.5",
     "babel-loader": "^8.0.4",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
     "postcss": "^7.0.5",
     "postcss-loader": "^3.0.0",
+    "precss": "^3.1.2",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^4.20.2",
