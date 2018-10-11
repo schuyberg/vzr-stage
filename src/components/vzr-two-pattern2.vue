@@ -91,14 +91,14 @@
       // two render
       two.render()
       two.bind('update', function(frameCount) {
-        Tween.update(frameCount)
+        Tween.update()
       }).play();
 
       class ShapesGroup {
         constructor(maxPoints) {
           this.maxPoints = maxPoints
           this.shapes = []
-          this.maxShapes = 100
+          this.maxShapes = 20
           this.addShape = _.throttle(function(){
             this.shapes.push(randPath(_.random(2, this.maxPoints)))
             if (this.shapes.length > this.maxShapes) {
@@ -112,23 +112,35 @@
         }
       }
 
-      let shapes1 = new ShapesGroup(6)
+      let shapes1 = new ShapesGroup(3)
+      let shapes2 = new ShapesGroup(3)
       let bassBump = util.newBumpDetector(40)
       let midBump = util.newBumpDetector(40)
 
       // triggers
       const shape1 = function(data) {
-        let amt = midBump.test(data.pentaBand.lowMid, 20);
-        if (amt) {
+        let midAmt = midBump.test(data.pentaBand.lowMid, 20)
+        let bassAmt = bassBump.test(data.pentaBand.bass, 20)
+        if (midAmt) {
           let rTgt = shapes1.shapes[randIdx(shapes1.shapes)]
           if(!rTgt) return;
-//          rTgt.rotation = rTgt.rotation + amt;
-          rTgt.rTween = new Tween.Tween(rTgt).to({rotation : 1.6}, 300).start()
+//          rTgt.rotation = midAmt / 100;
+          let rotate = midAmt / (_.random(-1, 1) * 300);
+          rTgt.rTween = new Tween.Tween(rTgt).to({rotation : rotate}, _.random(100000, 200000)/midAmt).start()
+        }
+        if (bassAmt) {
+          let rTgt = shapes1.shapes[randIdx(shapes1.shapes)]
+          if(!rTgt) return;
+          let zoom = bassAmt / (_.random(-1, 1) * 100);
+          rTgt.rTween = new Tween.Tween(rTgt).to({scale : zoom},  _.random(10000, 100000)/bassAmt).start()
         }
         shapes1.maxShapes = Math.floor(data.average * 1.2)
-        if(data.pentaBand.lowMid > 90){
+        if(data.pentaBand.lowMid > 120){
           shapes1.addShape();
         }
+      }
+      const shape2 = function(data) {
+
       }
 
       vzr.addTrigger('patterns2', [shape1])
