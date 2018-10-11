@@ -6,8 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "dev": "NODE_ENV=development webpack-dev-server --open",
+    "build": "NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
     "pubsub-js": "^1.5.7",
@@ -19,17 +19,17 @@
     "not ie <= 8"
   ],
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "cross-env": "^5.0.5",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
-    "vue-loader": "^13.0.5",
+    "postcss": "^7.0.5",
+    "postcss-loader": "^3.0.0",
+    "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-sass-loader": "^2.2.1"
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
   }
 }

@@ -1,7 +1,9 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
+  mode: "development",
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -27,8 +29,13 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -53,26 +60,20 @@ module.exports = {
   performance: {
     hints: false
   },
+  plugins: [
+    new VueLoaderPlugin()
+  ],
   devtool: '#eval-source-map'
 }
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.mode = "production",
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
       }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
     })
   ])
 }
